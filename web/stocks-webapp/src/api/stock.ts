@@ -9,7 +9,14 @@ export async function getStocksFromApi(
 ) {
   try {
     const response = await axiosInstance.get('/stocks', {
-      params: { limit: 20, offset, sort_by: sortBy, sort_dir: sortDir },
+      params: {
+        limit: 20,
+        offset,
+        sort_by: sortBy,
+        sort_dir: sortDir,
+        search_term: searchTerm,
+        search_by: searchBy,
+      },
     })
     return response.data
   } catch (error) {
@@ -17,4 +24,3 @@ export async function getStocksFromApi(
     throw error
   }
 }
-

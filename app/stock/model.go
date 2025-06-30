@@ -19,11 +19,6 @@ type Stock struct {
 	Time       time.Time `json:"time"`
 }
 
-type StockAPIResponse struct {
-	Items    []Stock `json:"items"`
-	NextPage string  `json:"next_page"`
-}
-
 type StockQueryFilters struct {
 	Limit      int    `json:"limit" validate:"gte=1,lte=20"`
 	Offset     int    `json:"offset" validate:"gte=0"`

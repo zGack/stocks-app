@@ -13,7 +13,6 @@ type StockRepo interface {
 	Create(context.Context, *Stock) error
 	GetAll(context.Context, StockQueryFilters) ([]*Stock, error)
 	GetAllWithQuery(context.Context, StockQueryFilters) ([]*Stock, error)
-	BulkInsert(context.Context, [][]any) error
 }
 
 type cockroachStockRepo struct {
@@ -32,22 +31,6 @@ func (r *cockroachStockRepo) Create(ctx context.Context, stock *Stock) error {
 		query,
 		stock.Ticker, stock.TargetFrom, stock.TargetTo, stock.Company, stock.Action, stock.Brokerage, stock.RatingFrom, stock.RatingTo,
 	).Scan(&stock.ID)
-}
-
-func (r *cockroachStockRepo) BulkInsert(ctx context.Context, rows [][]any) error {
-	copyCount, err := r.db.CopyFrom(
-		ctx,
-		pgx.Identifier{"stock"},
-		[]string{"ticker", "target_from", "target_to", "company", "action", "brokerage", "rating_from", "rating_to", "time"},
-		pgx.CopyFromRows(rows),
-	)
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("Inserted %d rows into stock table\n", copyCount)
-
-	return nil
 }
 
 func (r *cockroachStockRepo) GetAll(ctx context.Context, filters StockQueryFilters) ([]*Stock, error) {

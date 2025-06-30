@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS stocksdb.stock (
+CREATE TABLE IF NOT EXISTS stock (
     id SERIAL PRIMARY KEY,
     ticker VARCHAR(255) NOT NULL,
     target_from VARCHAR(255) NOT NULL,

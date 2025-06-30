@@ -5,12 +5,13 @@ export function useStockService() {
     offset: number,
     sortBy: string = 'time',
     sortDir: 'desc' | 'asc' = 'desc',
+    searchTerm?: string,
   ) {
     if (['change', 'change_percent'].includes(sortBy)) {
       // since change and change_percent are not supported by the API, use time as fallback
       sortBy = 'time'
     }
-    return await getStocksFromApi(offset, sortBy, sortDir)
+    return await getStocksFromApi(offset, sortBy, sortDir, searchTerm)
   }
 
   return {

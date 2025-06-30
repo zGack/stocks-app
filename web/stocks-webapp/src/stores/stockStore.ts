@@ -17,6 +17,8 @@ export const useStockStore = defineStore('stock', {
     sortBy: 'time',
     sortDir: 'desc' as 'asc' | 'desc',
     selectedStock: null as Stock | null,
+    searchTerm: '',
+    searchingByTerm: false,
   }),
 
   actions: {
@@ -29,7 +31,13 @@ export const useStockStore = defineStore('stock', {
       try {
         const { getStocks } = useStockService()
 
-        const stocks = await getStocks(this.offset, this.sortBy, this.sortDir)
+        const stocks = await getStocks(this.offset, this.sortBy, this.sortDir, this.searchTerm)
+
+        if (!stocks || stocks.length === 0) {
+          this.hasMore = false
+          this.stocks = []
+          return
+        }
 
         const items: Stock[] = stocks
 
@@ -43,10 +51,6 @@ export const useStockStore = defineStore('stock', {
 
         if (['change', 'change_percent'].includes(this.sortBy)) {
           this.stocks = sortStocks(this.stocks, this.sortBy, this.sortDir)
-        }
-
-        if (items.length < this.limit) {
-          this.hasMore = false
         }
       } catch (err: any) {
         console.error('Error fetching stocks:', err)
@@ -75,6 +79,13 @@ export const useStockStore = defineStore('stock', {
     },
     selectStock(stock: Stock | null) {
       this.selectedStock = stock
+    },
+    setSearchTerm(term: string) {
+      this.offset = 0
+      this.searchTerm = term
+      this.searchingByTerm = term.length > 0
+      this.hasMore = !(term.length > 0) // reset hasMore to enable fetching with scroll again
+      this.fetchStocks(true) // re-fetch data
     },
   },
 })

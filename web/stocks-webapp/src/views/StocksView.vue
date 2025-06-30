@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, useTemplateRef, onUnmounted } from 'vue'
+import { onMounted, useTemplateRef } from 'vue'
 import StockTable from '@/components/StockTable.vue'
 import StockFilters from '@/components/StockFilters.vue'
 import Stats from '@/components/Stats.vue'
@@ -7,8 +7,6 @@ import { useStockStore } from '@/stores/stockStore'
 import { useInfiniteScroll } from '@vueuse/core'
 import StockModal from '@/components/StockModal.vue'
 
-const stocks = ref([])
-const filters = ref({})
 const stocksStore = useStockStore()
 
 const cardsContainer = useTemplateRef<HTMLElement>('cardsContainer')

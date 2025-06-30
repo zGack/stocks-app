@@ -6,12 +6,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/zgack/stocks/app/router"
 	"github.com/zgack/stocks/app/router/middleware"
 	"github.com/zgack/stocks/config"
 	"github.com/zgack/stocks/internal/db"
+	stocksfetcher "github.com/zgack/stocks/internal/stocksFetcher"
 )
 
 func main() {
@@ -44,13 +44,26 @@ func main() {
 		IdleTimeout:  c.Server.TimeoutIdle,
 	}
 
+	stocksFetcherService := stocksfetcher.NewService(db)
+
+    ctx, cancel := context.WithCancel(context.Background())
+
+	// Fetch initial stock data
+	lastPage, err := stocksFetcherService.FetchInitialStocks(context.Background())
+	if err != nil {
+		log.Fatal("Failed to fetch initial stocks:", err)
+	}
+
+    // Init background job to fetch remaining stocks
+    go stocksFetcherService.FetchRemainingStocks(ctx, cancel, lastPage)
+
 	// TODO: add graceful shutdown
 
 	log.Printf("Starting server on %v", c.Server.Port)
 	log.Fatal(s.ListenAndServe())
 }
 
-func openDatabase(dbURL string) (*pgxpool.Pool) {
+func openDatabase(dbURL string) *pgxpool.Pool {
 	db, err := db.New(dbURL)
 	if err != nil {
 		log.Panic(err)

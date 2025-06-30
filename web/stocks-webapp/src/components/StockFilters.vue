@@ -10,17 +10,20 @@
     <input
       placeholder="Search Stocks by Company"
       class="rounded-lg border-2 border-gray-400 block pl-8 pr-6 py-2 w-full bg-white text-md placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700"
+      @input="onSearchInput"
     />
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-const emit = defineEmits(['filter'])
+<script setup lang="ts">
+import { useDebounceFn } from '@vueuse/core'
+import { useStockStore } from '@/stores/stockStore'
 
-const ticker = ref('')
+const stocksStore = useStockStore()
 
-function emitFilters() {
-  emit('filter', { ticker: ticker.value })
-}
+const onSearchInput = useDebounceFn((e: Event) => {
+  const input = e.target as HTMLInputElement
+
+  stocksStore.setSearchTerm(input.value.trim())
+}, 400)
 </script>
