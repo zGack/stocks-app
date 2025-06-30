@@ -1,0 +1,5 @@
+export SERVER_PORT=""
+export DB_MIGRATOR_URL=""
+export DB_ADDR=""
+export STOCKS_API_AUTH_TOKEN=""
+export ENV="development"
