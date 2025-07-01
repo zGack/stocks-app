@@ -7,11 +7,11 @@
       <span class="text-md">Loaded Stocks</span>
     </div>
     <div class="flex text-center flex-col">
-      <span class="text-2xl font-bold block">30</span>
+      <span class="text-2xl font-bold block">{{ stocksStore.gainersCount }}</span>
       <span class="text-lg">Gainers</span>
     </div>
     <div class="flex text-center flex-col">
-      <span class="text-2xl font-bold block">23</span>
+      <span class="text-2xl font-bold block">{{ stocksStore.losersCount }}</span>
       <span class="text-lg">Loosers</span>
     </div>
   </div>

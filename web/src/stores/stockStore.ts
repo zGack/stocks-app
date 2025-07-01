@@ -4,7 +4,7 @@ import type { Stock } from '@/types/Stock'
 import { useStockService } from '@/service/stockService'
 import { useStock } from '@/composables/useStock'
 
-const { sortStocks } = useStock()
+const { sortStocks, calculateChange } = useStock()
 
 export const useStockStore = defineStore('stock', {
   state: () => ({
@@ -22,6 +22,9 @@ export const useStockStore = defineStore('stock', {
   }),
   getters: {
     isLoading: (state) => state.loading,
+    gainersCount: (state) => state.stocks.filter(stock => calculateChange(stock.target_from, stock.target_to) >= 0).length,
+
+    losersCount: (state) => state.stocks.filter(stock => calculateChange(stock.target_from, stock.target_to) < 0).length,
   },
   actions: {
     async fetchStocks(initial = false) {
