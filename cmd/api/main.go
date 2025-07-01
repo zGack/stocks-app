@@ -19,7 +19,6 @@ func main() {
 	// TODO: add logger
 
 	db := openDatabase(c.DB.DBPath)
-	// TODO: add db migrations
 
 	defer db.Close()
 
@@ -71,31 +70,3 @@ func openDatabase(dbURL string) *pgxpool.Pool {
 	return db
 }
 
-// func main() {
-//
-// 	appConfig := config{
-// 		addr: env.GetString("ADDR", ":8080"),
-// 		db: dbConfig{
-// 			addr: env.GetString("DB_ADDR", "postgresql://root@localhost:26257/defaultdb?sslmode=disable"),
-// 		},
-//         env: env.GetString("ENV", "development"),
-// 	}
-//
-//     db, ctx, err := db.New(appConfig.db.addr)
-//     if err != nil {
-//         log.Panic(err)
-//     }
-//     defer db.Close(ctx)
-//     log.Printf("Database connection pool established")
-//
-//     store := store.NewCockroachStorage(db)
-//
-// 	app := &application{
-// 		config: appConfig,
-// 		store:  store,
-// 	}
-//
-// 	mux := app.mount()
-//
-// 	log.Fatal(app.run(mux))
-// }

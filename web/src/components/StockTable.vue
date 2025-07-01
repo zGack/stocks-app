@@ -2,7 +2,7 @@
   <div class="h-screen overflow-y-auto rounded-md" ref="tableContainer" style="height: 65vh">
     <table class="min-w-full divide-y divide-gray-200 max-h-screen overflow-y-auto text-md">
       <thead class="sticky top-0 z-10">
-        <tr class="bg-linear-to-t from-sky-500 to-indigo-500 ">
+        <tr class="bg-linear-to-t from-sky-500 to-indigo-500">
           <th
             v-for="col in columns"
             :key="col.key"
@@ -82,8 +82,7 @@
               "
             >
               {{ calculateChangePercent(stock.target_from, stock.target_to) >= 0 ? '+' : '' }}
-              {{ calculateChangePercent(stock.target_from, stock.target_to).toFixed(2)
-              }}%
+              {{ calculateChangePercent(stock.target_from, stock.target_to).toFixed(2) }}%
             </span>
           </td>
           <td class="px-4 py-2">
@@ -95,6 +94,9 @@
         </tr>
       </tbody>
     </table>
+
+    <NoStocksFound v-if="stocks.length === 0 && !loading" />
+    <LoadingSpinner v-if="loading" />
   </div>
 </template>
 
@@ -105,9 +107,14 @@ import { useStockStore } from '@/stores/stockStore'
 import type { Stock } from '@/types/Stock'
 import { useInfiniteScroll, useScroll } from '@vueuse/core'
 import { useTemplateRef, type PropType } from 'vue'
+import NoStocksFound from './NoStocksFound.vue'
+import { storeToRefs } from 'pinia'
+import LoadingSpinner from './LoadingSpinner.vue'
 
 const tableContainer = useTemplateRef<HTMLElement>('tableContainer')
 const stocksStore = useStockStore()
+
+const { loading, stocks } = storeToRefs(stocksStore)
 
 const columns = [
   { label: 'Ticker', key: 'ticker' },
@@ -119,9 +126,9 @@ const columns = [
 ]
 
 const { formatDate } = useDateTime()
-const { calculateChange, calculateChangePercent } = useStock();
+const { calculateChange, calculateChangePercent } = useStock()
 
-const {y} = useScroll(tableContainer)
+const { y } = useScroll(tableContainer)
 
 useInfiniteScroll(
   tableContainer,
@@ -131,7 +138,7 @@ useInfiniteScroll(
   {
     distance: 10,
     canLoadMore: () => {
-      return stocksStore.hasMore && !stocksStore.searchingByTerm
+      return stocksStore.hasMore && !stocksStore.searchingByTerm && stocks.value.length > 0
     },
   },
 )

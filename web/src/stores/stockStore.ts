@@ -20,7 +20,9 @@ export const useStockStore = defineStore('stock', {
     searchTerm: '',
     searchingByTerm: false,
   }),
-
+  getters: {
+    isLoading: (state) => state.loading,
+  },
   actions: {
     async fetchStocks(initial = false) {
       if (this.loading || (!this.hasMore && !initial)) return
@@ -36,6 +38,7 @@ export const useStockStore = defineStore('stock', {
         if (!stocks || stocks.length === 0) {
           this.hasMore = false
           this.stocks = []
+          this.loading = false
           return
         }
 
@@ -53,7 +56,7 @@ export const useStockStore = defineStore('stock', {
           this.stocks = sortStocks(this.stocks, this.sortBy, this.sortDir)
         }
       } catch (err: any) {
-        console.error('Error fetching stocks:', err)
+        console.log('Error fetching stocks:', err)
         this.error = err.message || 'Failed to fetch stocks'
         this.hasMore = false
       } finally {
