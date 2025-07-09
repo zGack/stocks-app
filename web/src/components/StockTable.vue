@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-auto rounded-md" ref="tableContainer" style="height: 65vh">
+  <div class="h-screen overflow-y-auto rounded-md" ref="tableContainer" style="height: 63vh">
     <table class="min-w-full divide-y divide-gray-200 max-h-screen overflow-y-auto text-md">
       <thead class="sticky top-0 z-10">
         <tr class="bg-linear-to-t from-sky-500 to-indigo-500">
@@ -86,9 +86,12 @@
             </span>
           </td>
           <td class="px-4 py-2">
-            <span class="line-through text-gray-400">{{ stock.rating_from }}</span>
-            →
-            <span class="font-semibold">{{ stock.rating_to }}</span>
+            <span class="w-full text-center" v-if="!stock.rating_from || !stock.rating_to">--</span>
+            <div v-else>
+              <span class="line-through text-gray-400">{{ stock.rating_from }}</span>
+              →
+              <span class="font-semibold">{{ stock.rating_to }}</span>
+            </div>
           </td>
           <td class="px-4 py-2 text-sm text-gray-400">{{ formatDate(stock.time) }}</td>
         </tr>

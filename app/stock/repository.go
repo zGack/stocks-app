@@ -45,7 +45,7 @@ func (r *cockroachStockRepo) GetAll(ctx context.Context, filters StockQueryFilte
 	for rows.Next() {
 		var stock Stock
 		if err := rows.Scan(&stock.ID, &stock.Ticker, &stock.TargetFrom, &stock.TargetTo,
-			&stock.Company, &stock.Action, &stock.Brokerage, &stock.RatingFrom, &stock.RatingTo, &stock.Time); err != nil {
+			&stock.Company, &stock.Action, &stock.Brokerage, &stock.RatingFrom, &stock.RatingTo, &stock.Time, &stock.StockScore); err != nil {
 			return nil, err
 		}
 		stocks = append(stocks, &stock)
@@ -56,9 +56,9 @@ func (r *cockroachStockRepo) GetAll(ctx context.Context, filters StockQueryFilte
 func (r *cockroachStockRepo) GetAllWithQuery(ctx context.Context, filters StockQueryFilters) ([]*Stock, error) {
 	searchTerm := fmt.Sprintf("%%%s%%", strings.ToLower(filters.SearchTerm))
 	query := fmt.Sprintf("SELECT * FROM stock WHERE LOWER(company) LIKE $1 ORDER BY %s %s LIMIT $2 OFFSET $3", pgx.Identifier{filters.SortBy}.Sanitize(), filters.SortDir)
-    fmt.Printf("Executing query: %s\n", query)
-    fmt.Printf("Search term: %s\n", searchTerm)
-    fmt.Printf("Filters: %+v\n", filters)
+	fmt.Printf("Executing query: %s\n", query)
+	fmt.Printf("Search term: %s\n", searchTerm)
+	fmt.Printf("Filters: %+v\n", filters)
 
 	rows, err := r.db.Query(ctx, query, searchTerm, filters.Limit, filters.Offset)
 	if err != nil {
@@ -69,7 +69,7 @@ func (r *cockroachStockRepo) GetAllWithQuery(ctx context.Context, filters StockQ
 	for rows.Next() {
 		var stock Stock
 		if err := rows.Scan(&stock.ID, &stock.Ticker, &stock.TargetFrom, &stock.TargetTo,
-			&stock.Company, &stock.Action, &stock.Brokerage, &stock.RatingFrom, &stock.RatingTo, &stock.Time); err != nil {
+			&stock.Company, &stock.Action, &stock.Brokerage, &stock.RatingFrom, &stock.RatingTo, &stock.Time, &stock.StockScore); err != nil {
 			return nil, err
 		}
 		stocks = append(stocks, &stock)

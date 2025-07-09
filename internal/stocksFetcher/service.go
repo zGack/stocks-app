@@ -15,7 +15,7 @@ import (
 type Service struct {
 	DB     *pgxpool.Pool
 	store  StocksFetcherRepo
-	apiUrl string
+	apiURL string
 	once   sync.Once
 }
 
@@ -29,10 +29,13 @@ func NewService(db *pgxpool.Pool) *Service {
 func (s *Service) InsertStocks(ctx context.Context, stocks []stock.Stock) error {
 	var rows [][]any
 	for _, stock := range stocks {
+        stock.StockScore = getStockScore(stock)
+
 		row := []any{
 			stock.Ticker, stock.TargetFrom, stock.TargetTo,
 			stock.Company, stock.Action, stock.Brokerage,
 			stock.RatingFrom, stock.RatingTo, stock.Time,
+            stock.StockScore,
 		}
 		rows = append(rows, row)
 	}

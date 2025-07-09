@@ -8,4 +8,5 @@ export interface Stock {
   rating_from: string
   rating_to: string
   time: string
+  stock_score: number
 }

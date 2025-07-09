@@ -17,6 +17,7 @@ type Stock struct {
 	RatingFrom string    `json:"rating_from"`
 	RatingTo   string    `json:"rating_to"`
 	Time       time.Time `json:"time"`
+	StockScore float64   `json:"stock_score"` // calculated score based on target price and rating changes
 }
 
 type StockQueryFilters struct {
@@ -61,15 +62,15 @@ func (f StockQueryFilters) Parse(r *http.Request) (StockQueryFilters, error) {
 		f.SortBy = sortBy
 	}
 
-    searchTerm := qs.Get("search_term")
-    if searchTerm != "" {
-        f.SearchTerm = searchTerm
-    }
+	searchTerm := qs.Get("search_term")
+	if searchTerm != "" {
+		f.SearchTerm = searchTerm
+	}
 
-    searchBy := qs.Get("search_by")
-    if searchBy != "" {
-        f.SearchBy = searchBy
-    }
+	searchBy := qs.Get("search_by")
+	if searchBy != "" {
+		f.SearchBy = searchBy
+	}
 
 	return f, nil
 }

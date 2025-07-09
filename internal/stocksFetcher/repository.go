@@ -26,7 +26,7 @@ func (r *cockroachStockRepo) BulkInsert(ctx context.Context, rows [][]any) error
 	copyCount, err := r.db.CopyFrom(
 		ctx,
 		pgx.Identifier{"stock"},
-		[]string{"ticker", "target_from", "target_to", "company", "action", "brokerage", "rating_from", "rating_to", "time"},
+		[]string{"ticker", "target_from", "target_to", "company", "action", "brokerage", "rating_from", "rating_to", "time", "stock_score"},
 		pgx.CopyFromRows(rows),
 	)
 	if err != nil {
