@@ -64,3 +64,7 @@ npm run dev
 ```
 
 This will start the Vue3 frontend app, and you can access it at `http://localhost:5173`.
+
+### Author
+Sebastian Mena
+[Linkedin](www.linkedin.com/in/sebastian-mena-ferreira-0341b9171)
