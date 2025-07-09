@@ -13,8 +13,10 @@ Stops Recommendation App is built using the following technologies:
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/c3ae0289-22e3-42fe-bbf9-fd11373e5c74)
+
 ![image](https://github.com/user-attachments/assets/7c0cc909-fbc6-485b-98d0-b64458092a30)
-![image](https://github.com/user-attachments/assets/6cd7be87-e479-4f87-9b1b-f0f1f8a204cd)
+
+![image](https://github.com/user-attachments/assets/f5deac89-004a-465c-aff4-a1b0f0ad3391)
 
 ## Usage
 
