@@ -1,5 +1,7 @@
-export SERVER_PORT=""
-export DB_MIGRATOR_URL=""
-export DB_ADDR=""
+export SERVER_PORT="8080"
+export DB_MIGRATOR_URL="cockroachdb://YOUR_DB_URL"
+export DB_ADDR="postgresql://YOUR_DB_URL"
+export STOCKS_API_URL=""
 export STOCKS_API_AUTH_TOKEN=""
 export ENV="development"
+export STOCKS_API_POPULATE=true

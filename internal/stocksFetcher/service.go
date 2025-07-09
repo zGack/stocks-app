@@ -105,7 +105,10 @@ func (s *Service) FetchRemainingStocks(ctx context.Context, cancel context.Cance
 }
 
 func (s *Service) FetchStockPage(ctx context.Context, nextPage string) ([]stock.Stock, string, error) {
-	apiURL := "https://8j5baasof2.execute-api.us-west-2.amazonaws.com/production/swechallenge/list"
+	apiURL := env.GetString("STOCKS_API_URL", "")
+    if apiURL == "" {
+        return nil, "", fmt.Errorf("STOCKS_API_URL is not set")
+    }
 
 	if nextPage != "" {
 		apiURL += fmt.Sprintf("?next_page=%s", nextPage)
