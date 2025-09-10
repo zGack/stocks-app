@@ -115,12 +115,12 @@ func (s *Service) FetchStockPage(ctx context.Context, nextPage string) ([]stock.
 	}
 
 	req, err := http.NewRequest("GET", apiURL, nil)
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+env.GetString("STOCKS_API_AUTH_TOKEN", ""))
-
 	if err != nil {
 		return nil, "", err
 	}
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("Authorization", "Bearer "+env.GetString("STOCKS_API_AUTH_TOKEN", ""))
+
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, "", err
