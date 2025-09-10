@@ -1,8 +1,10 @@
 package stock
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -53,7 +55,8 @@ func (f StockQueryFilters) Parse(r *http.Request) (StockQueryFilters, error) {
 	}
 
 	sortDir := qs.Get("sort_dir")
-	if sortDir != "" {
+    // Only "asc" value is valid
+	if sortDir != "" && (strings.ToLower(sortDir) == "asc" ) {
 		f.SortDir = sortDir
 	}
 
