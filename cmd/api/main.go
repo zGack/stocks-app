@@ -56,7 +56,7 @@ func main() {
     // Init background job to fetch remaining stocks
     // TODO: add retry pattern for getting stocks
     // TODO: circuit breaker pattern could work
-	// another comment
+	// another comment 2
     go stocksFetcherService.FetchRemainingStocks(ctx, cancel, lastPage)
 
 	// TODO: add graceful shutdown
